@@ -1,0 +1,18 @@
+name: tla_model_checker
+run-name: tla_model_checker
+on: [push]
+jobs:
+  tla_model_checker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4.2.1
+        with:
+          distribution: oracle
+          java-version: 21
+      - run: wget https://github.com/tlaplus/tlaplus/releases/download/v1.8.0/tla2tools.jar
+      #- run: java -cp ./tla2tools.jar -XX:+UseParallelGC -DTLA-Library= tlc2.TLC tla+/quadratic_raba.tla -tool -modelcheck -config tla+/quadratic_raba.cfg -fpmem 0.9 -workers 4
+      - run: java -cp ./tla2tools.jar -XX:+UseParallelGC -DTLA-Library= tlc2.TLC tla+/quadratic_aba.tla -tool -modelcheck -config tla+/quadratic_aba.cfg -fpmem 0.9 -workers 4
+      - run: java -cp ./tla2tools.jar -XX:+UseParallelGC -DTLA-Library= tlc2.TLC tla+/cubic_aba.tla -tool -modelcheck -config tla+/cubic_aba.cfg -fpmem 0.9 -workers 4
+      
